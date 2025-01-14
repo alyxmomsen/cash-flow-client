@@ -1,8 +1,8 @@
 {
   "name": "cash-flow",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "cash-flow app",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     
   },
@@ -15,5 +15,8 @@
   "devDependencies": {
     "dotenv": "^16.4.7"
   }, 
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts" ,
+  "files": [
+    "dist" , "README.md"
+  ]
 }

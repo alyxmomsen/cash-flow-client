@@ -113,5 +113,6 @@
   ],
   "exclude": [
     "node_modules",            // Исключаем папку node_modules
-    "dist" ]
+    "dist" 
+  ]
 }
