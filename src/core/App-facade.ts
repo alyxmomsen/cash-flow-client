@@ -1,4 +1,5 @@
 
+import { loggerCreator } from '../core-utils/core-utils'
 import { IEventService } from './events/App-event'
 import { IPersonFacory, PersonFactory } from './person/factories/PersonFactory'
 import { IPerson } from './person/Person'
@@ -112,7 +113,7 @@ export class ApplicationSingletoneFacade
             // this.browserLocalStorageManagementService.unsetAuthData()
 
             console.log('>>> inline log >>> user is null');
-            // #warning // #todo onUserIsNull
+            // #warning // #todo onUserIsNull is not provided
 
             return
         }
@@ -628,15 +629,3 @@ export class ApplicationSingletoneFacade
     }
 }
 
-export function loggerCreator(
-    isOn: boolean,
-    titleValue: string = 'unnamed log'
-) {
-    const title = titleValue
-
-    return (data: string) => {
-        if (isOn) {
-            console.log(`>>> ${title} >>> ${data}`)
-        }
-    }
-}

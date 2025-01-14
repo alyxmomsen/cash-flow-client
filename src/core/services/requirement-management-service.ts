@@ -4,7 +4,8 @@ import { IRequirementFactory } from '../requirement-command/factories/Requiremen
 import { IRrequirementsStatsType } from '../requirement-command/interfaces'
 import { IUserStats } from '../types/common'
 import { IAuthService } from './auth-service'
-import { env } from 'process'
+import { getServerBaseUrl } from '../../core-utils/core-utils'
+// import { env } from 'process'
 
 export interface IRequirementManagementService {
     createRequirement(
@@ -55,10 +56,7 @@ export class RequrementManagementService
         // const checkAuthResponse = await checkAuthMiddleWare.checkAuth(authToken)
 
         const response = await fetch(
-            env[
-            'ServerBaseURLLocal'
-            // 'ServerBaseURLOutSide'
-            ] + '/delete-requirement-protected-ep',
+            getServerBaseUrl() + '/delete-requirement-protected-ep',
             {
                 headers: {
                     'x-auth': authToken,
@@ -114,10 +112,7 @@ export class RequrementManagementService
 
             // #hardcode #warning
             const response = await fetch(
-                env[
-            'ServerBaseURLLocal'
-            // 'ServerBaseURLOutSide'
-            ] + '/add-user-requirements-protected',
+                getServerBaseUrl() + '/add-user-requirements-protected',
                 {
                     headers: {
                         'content-type': 'application/json',
