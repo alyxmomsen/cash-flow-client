@@ -1,6 +1,6 @@
 
 import { loggerCreator } from '../core-utils/core-utils'
-import { IEventService } from './events/App-event'
+import { EventService, IEventService } from './events/App-event'
 import { IPersonFacory, PersonFactory } from './person/factories/PersonFactory'
 import { IPerson } from './person/Person'
 import {
@@ -19,7 +19,7 @@ import {
     IRequirementManagementService,
     RequrementManagementService,
 } from './services/requirement-management-service'
-import { IHTTPServerCommunicateService } from './services/server-connector-service-facade'
+import { HTTPServerComunicateService, IHTTPServerCommunicateService } from './services/server-connector-service-facade'
 
 import { ITask } from './Task'
 import { IUserStats } from './types/common'
@@ -477,8 +477,8 @@ export class ApplicationSingletoneFacade
             ApplicationSingletoneFacade.instance =
                 new ApplicationSingletoneFacade(
                     // localStorageService,
-                    serverConnector,
-                    eventService,
+                    // serverConnector,
+                    // eventService,
                     authToken,
                 )
         }
@@ -532,8 +532,8 @@ export class ApplicationSingletoneFacade
 
     /* private  */ constructor(
         // localStorageService: ILocalStorageManagementService,
-        serverConnector: IHTTPServerCommunicateService,
-        eventService: IEventService,
+        // serverConnector: IHTTPServerCommunicateService,
+        // eventService: IEventService,
         authToken:string ,
     ) {
         // subscribers
@@ -547,18 +547,20 @@ export class ApplicationSingletoneFacade
 
         // --
 
+        
+        
+        this.HTTPServerComunicateService = new HTTPServerComunicateService();
+        this.authUserService = new AuthUserService()
+        this.eventServise = new EventService();
         this.personFactory = new PersonFactory()
         this.requirementFactory = new RequirementFactory()
         this.requriementManagementService = new RequrementManagementService(
             new RequirementFactory()
         )
-        this.authUserService = new AuthUserService()
 
-        this.eventServise = eventService
         this.callbackPull = []
         this.updatingStatus = false
         // this.browserLocalStorageManagementService = localStorageService
-        this.HTTPServerComunicateService = serverConnector
 
         this.user = null
 
