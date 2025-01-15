@@ -19,7 +19,7 @@ class GoingSleepStatus extends PersonStatusSystem {
         return `You fell asleep ${Math.floor(this.getDifference() / 1000)} seconds ago`;
     }
     constructor() {
-        super('going to sleep', 0);
+        super("going to sleep", 0);
     }
 }
 exports.GoingSleepStatus = GoingSleepStatus;
@@ -31,7 +31,7 @@ class AwakeningStatus extends PersonStatusSystem {
         return `You woke up ${Math.floor(this.getDifference() / 1000)} seconds ago`;
     }
     constructor() {
-        super('awakening', 1);
+        super("awakening", 1);
         this.date = Date.now();
     }
 }
@@ -57,7 +57,7 @@ class AwakenStatusFactory extends PersonStatusFactory {
         return new AwakeningStatus();
     }
     constructor() {
-        super('wake up');
+        super("wake up");
     }
 }
 exports.AwakenStatusFactory = AwakenStatusFactory;
@@ -66,7 +66,7 @@ class SlepStatusFactory extends PersonStatusFactory {
         return new GoingSleepStatus();
     }
     constructor() {
-        super('sleep');
+        super("sleep");
     }
 }
 exports.SlepStatusFactory = SlepStatusFactory;

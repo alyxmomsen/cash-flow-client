@@ -15,15 +15,15 @@ class RequrementManagementService {
     deleteRequirement(reqId, authToken, checkAuthMiddleWare) {
         return __awaiter(this, void 0, void 0, function* () {
             // const checkAuthResponse = await checkAuthMiddleWare.checkAuth(authToken)
-            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + '/delete-requirement-protected-ep', {
+            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + "/delete-requirement-protected-ep", {
                 headers: {
-                    'x-auth': authToken,
-                    'content-type': 'application/json',
+                    "x-auth": authToken,
+                    "content-type": "application/json",
                 },
                 body: JSON.stringify({
                     requirementId: reqId,
                 }),
-                method: 'post',
+                method: "post",
             });
             const data = (yield response.json());
             return data;
@@ -34,13 +34,13 @@ class RequrementManagementService {
             try {
                 const body = Object.assign({}, fields);
                 // #hardcode #warning
-                const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + '/add-user-requirements-protected', {
+                const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + "/add-user-requirements-protected", {
                     headers: {
-                        'content-type': 'application/json',
-                        'x-auth': authToken,
+                        "content-type": "application/json",
+                        "x-auth": authToken,
                     },
                     body: JSON.stringify(Object.assign({}, body)),
-                    method: 'post',
+                    method: "post",
                 });
                 const data = (yield response.json());
                 return data;
@@ -50,7 +50,7 @@ class RequrementManagementService {
                     payload: null,
                     status: {
                         code: 343,
-                        details: 'bad mood',
+                        details: "bad mood",
                     },
                 };
             }

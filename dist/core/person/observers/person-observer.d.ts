@@ -1,4 +1,4 @@
-import { IPerson } from '../Person';
+import { IPerson } from "../Person";
 export interface IPersonObserver {
     execute(user: IPerson): any;
     addObserveable(cb: (user: IPerson) => any): any;

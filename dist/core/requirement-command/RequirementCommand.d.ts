@@ -1,5 +1,5 @@
-import { IPerson } from '../person/Person';
-import { IRrequirementsStatsType } from './interfaces';
+import { IPerson } from "../person/Person";
+import { IRrequirementsStatsType } from "./interfaces";
 export interface ITransactionRequirementCommand {
     execute(person: IPerson): boolean;
     getId(): string;
@@ -33,7 +33,7 @@ declare abstract class TransactionRequirementCommand implements ITransactionRequ
     getDescription(): string;
     getValue(): number;
     getDeletedTheState(): boolean;
-    constructor({ id, value, title, description, dateToExecute, transactionTypeCode, executed, createdTimeStamp, updatedTimeStamp, }: Omit<IRrequirementsStatsType, 'deleted' | 'userId'>);
+    constructor({ id, value, title, description, dateToExecute, transactionTypeCode, executed, createdTimeStamp, updatedTimeStamp, }: Omit<IRrequirementsStatsType, "deleted" | "userId">);
     protected id: string;
     protected title: string;
     protected value: number;
@@ -54,13 +54,13 @@ declare abstract class TransactionRequirementCommand implements ITransactionRequ
 export declare class IncrementMoneyRequirementCommand extends TransactionRequirementCommand {
     execute(person: IPerson): boolean;
     executeWithValue(value: number): number;
-    constructor(stats: Omit<IRrequirementsStatsType, 'transactionTypeCode' | 'deleted' | 'userId'>);
+    constructor(stats: Omit<IRrequirementsStatsType, "transactionTypeCode" | "deleted" | "userId">);
 }
 export declare class DecrementMoneyRequirementCommand extends TransactionRequirementCommand {
     executeWithValue(value: number): number;
     getValue(): number;
     getDescription(): string;
     execute(person: IPerson): boolean;
-    constructor({ id, value, title, description, dateToExecute, executed, createdTimeStamp, updatedTimeStamp, }: Omit<IRrequirementsStatsType, 'userId' | 'deleted' | 'transactionTypeCode'>);
+    constructor({ id, value, title, description, dateToExecute, executed, createdTimeStamp, updatedTimeStamp, }: Omit<IRrequirementsStatsType, "userId" | "deleted" | "transactionTypeCode">);
 }
 export {};

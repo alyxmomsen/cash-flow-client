@@ -1,6 +1,6 @@
-import { IPerson } from './person/Person';
-import { ITransactionRequirementCommand } from './requirement-command/RequirementCommand';
-import { ITask } from './Task';
+import { IPerson } from "./person/Person";
+import { ITransactionRequirementCommand } from "./requirement-command/RequirementCommand";
+import { ITask } from "./Task";
 export interface IPlanner<T, S> {
     addTask(task: ITask<T, S>): ITask<T, S>;
     check(): void;

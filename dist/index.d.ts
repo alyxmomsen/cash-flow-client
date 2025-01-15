@@ -1,2 +1,2 @@
-import { ApplicationSingletoneFacade } from './core/App-facade';
+import { ApplicationSingletoneFacade } from "./core/App-facade";
 export declare const cashFlowApp: ApplicationSingletoneFacade;

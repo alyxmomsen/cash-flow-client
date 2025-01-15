@@ -1,5 +1,5 @@
-import { IPerson } from './person/Person';
-import { ITransactionRequirementCommand } from './requirement-command/RequirementCommand';
+import { IPerson } from "./person/Person";
+import { ITransactionRequirementCommand } from "./requirement-command/RequirementCommand";
 export interface ITask<T, S> {
     getRequirement(): ITransactionRequirementCommand;
     getDateStart(): Date;

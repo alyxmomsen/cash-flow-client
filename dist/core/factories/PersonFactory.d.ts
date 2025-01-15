@@ -1,5 +1,5 @@
-import { IPerson } from '../person/Person';
-import { Factory } from './AbstractFactory';
+import { IPerson } from "../person/Person";
+import { Factory } from "./AbstractFactory";
 export declare abstract class PersonFactory extends Factory<IPerson> {
     abstract create(name: string, walletInitValue: number, createdTimeStamp: number, updatedTimeStamp: number): IPerson;
     constructor();

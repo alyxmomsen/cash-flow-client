@@ -23,34 +23,34 @@ class HTTPServerComunicateService {
                     payload: null,
                     status: {
                         code: 0,
-                        details: 'no auth token (in local storage)',
+                        details: "no auth token (in local storage)",
                     },
                 };
-            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + '/update-user', {
+            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + "/update-user", {
                 headers: {
-                    'content-type': 'application/json',
-                    'x-auth': authJWTToken,
+                    "content-type": "application/json",
+                    "x-auth": authJWTToken,
                 },
                 body: JSON.stringify(user),
-                method: 'post',
+                method: "post",
             });
             const data = (yield response.json());
-            console.log('>>> update user request ::  server respose: ', { data });
+            console.log(">>> update user request ::  server respose: ", { data });
             return data;
         });
     }
     getUserByUserNameAndPassword(userName, password) {
         return __awaiter(this, void 0, void 0, function* () {
             const headers = {
-                'content-type': 'application/json',
+                "content-type": "application/json",
             };
             const bodyInitData = {
                 userName,
                 password,
             };
-            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + '/get-user-with-username-and-password', {
+            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + "/get-user-with-username-and-password", {
                 headers: headers,
-                method: 'post',
+                method: "post",
                 body: JSON.stringify(bodyInitData),
             });
             const responseData = (yield response.json());
@@ -60,12 +60,12 @@ class HTTPServerComunicateService {
     getUserByAuthToken(token) {
         return __awaiter(this, void 0, void 0, function* () {
             const headers = {
-                'content-type': 'application/json',
-                'x-auth': token,
+                "content-type": "application/json",
+                "x-auth": token,
             };
-            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + '/get-user-with-token', {
+            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + "/get-user-with-token", {
                 headers: headers,
-                method: 'post',
+                method: "post",
             });
             const responseData = (yield response.json());
             /* ----- */

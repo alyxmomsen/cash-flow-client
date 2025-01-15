@@ -35,7 +35,7 @@ class Person {
         return userStats;
     }
     removeTransactionsToSyncAsStats() {
-        console.log('>>> remove requirements ::: started');
+        console.log(">>> remove requirements ::: started");
         const requirementsStatsArr = Array.from(this.requirementToSyncPool.entries())
             .filter((elem) => {
             const [, poolElem] = elem;
@@ -45,8 +45,8 @@ class Person {
         })
             .map((elem) => {
             const [, poolElement] = elem;
-            console.log('>>> remove requirement ::: ', poolElement);
-            console.log('>>> remove requirement :::: 2', poolElement.data.getTransactionTypeCode());
+            console.log(">>> remove requirement ::: ", poolElement);
+            console.log(">>> remove requirement :::: 2", poolElement.data.getTransactionTypeCode());
             poolElement.removed = true;
             const requirement = poolElement.data;
             return {
@@ -114,13 +114,13 @@ class Person {
     }
     addRequirementCommand(requirementCommand) {
         requirementCommand.subscribeOnUpdate((reqId) => {
-            console.log('>>> add requirement id test :: id : ' + reqId);
+            console.log(">>> add requirement id test :: id : " + reqId);
             this.requirementToSyncPool.set(reqId, {
                 removed: false,
                 data: requirementCommand,
             });
-            this.emitMessage('requirement-updated');
-            console.log('>>> add requirement :: requirement updated');
+            this.emitMessage("requirement-updated");
+            console.log(">>> add requirement :: requirement updated");
         });
         this.requirementCommandsPool.push(requirementCommand);
         return requirementCommand;

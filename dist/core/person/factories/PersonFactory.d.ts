@@ -1,4 +1,4 @@
-import { IPerson } from '../Person';
+import { IPerson } from "../Person";
 export interface IPersonFacory {
     create(name: string, walletInitValue: number, createdTimeStamp: number, updatedTimeStamp: number): IPerson;
 }

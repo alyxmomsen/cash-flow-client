@@ -14,12 +14,12 @@ const core_utils_1 = require("../../core-utils/core-utils");
 class AuthUserService {
     checkAuth(token) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + '/check-user-auth-protected-ep', {
+            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + "/check-user-auth-protected-ep", {
                 headers: {
-                    'content-type': 'application/json',
-                    'x-auth': token,
+                    "content-type": "application/json",
+                    "x-auth": token,
                 },
-                method: 'post',
+                method: "post",
             });
             const data = (yield response.json());
             return data;
@@ -27,18 +27,18 @@ class AuthUserService {
     }
     execute(userName, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + '/auth', {
-                method: 'post',
+            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + "/auth", {
+                method: "post",
                 body: JSON.stringify({ userName, password }),
                 headers: {
-                    'content-type': 'application/json',
+                    "content-type": "application/json",
                 },
             });
             const data = (yield response.json());
             const { payload, status } = data;
             if (payload && status.code < 1) {
                 // payload
-                localStorage.setItem('userId', payload.userId);
+                localStorage.setItem("userId", payload.userId);
                 return {
                     payload: {
                         userId: payload.userId,

@@ -22,22 +22,22 @@ class ApplicationSingletoneFacade {
         const user = this.user;
         if (user === null) {
             // this.browserLocalStorageManagementService.unsetAuthData()
-            console.log('>>> inline log >>> user is null');
+            console.log(">>> inline log >>> user is null");
             // #warning // #todo onUserIsNull is not provided
             return;
         }
-        console.log('>>> executeTransaction :: getting requirements...');
+        console.log(">>> executeTransaction :: getting requirements...");
         const requirements = user.getAllReauirementCommands().filter((elem) => {
             return elem.getId() === id;
         });
         if (requirements.length > 1)
-            throw new Error('multiple items by Id: ' + id);
+            throw new Error("multiple items by Id: " + id);
         if (requirements.length < 1)
-            throw new Error('no transactions by Id: ' + id);
+            throw new Error("no transactions by Id: " + id);
         const requirement = requirements[0];
         requirement.execute(user);
-        console.log('>>> executeTransaction :: ', requirements);
-        console.log('>>> executeTransaction :: user has been mutated');
+        console.log(">>> executeTransaction :: ", requirements);
+        console.log(">>> executeTransaction :: user has been mutated");
     }
     addRequirement(stats) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -45,7 +45,7 @@ class ApplicationSingletoneFacade {
             // this.browserLocalStorageManagementService.getAuthData()
             if (authToken) {
                 const data = yield this.requriementManagementService.createRequirement(stats, authToken);
-                console.log('>>> create requirement :: response: ', data);
+                console.log(">>> create requirement :: response: ", data);
                 if (data.payload === null) {
                     return null;
                 }
@@ -64,32 +64,30 @@ class ApplicationSingletoneFacade {
     }
     deleteRequirement(reqId, authToken) {
         return __awaiter(this, void 0, void 0, function* () {
-            const log = (0, core_utils_1.loggerCreator)(true
-            // && false
-            );
-            log('try delete the requirement');
-            log('req id: ' + reqId);
+            const log = (0, core_utils_1.loggerCreator)(true);
+            log("try delete the requirement");
+            log("req id: " + reqId);
             const authData = authToken; // warning
             // this.browserLocalStorageManagementService.getAuthData()
             if (authData === null) {
-                log('localstorage failed');
+                log("localstorage failed");
                 return null;
             }
-            log('local storage: ' + authData);
+            log("local storage: " + authData);
             const response = yield this.requriementManagementService.deleteRequirement(reqId, authData, this.authUserService);
             if (response.payload === null) {
-                log('payload failed');
+                log("payload failed");
                 return null;
             }
-            log('payload: ' + response.payload.requirementId);
+            log("payload: " + response.payload.requirementId);
             return { id: response.payload.requirementId };
         });
     }
     userLogIn(userName, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            const log = (0, core_utils_1.loggerCreator)(true, 'USER LOGGING');
-            log('user loging');
-            log(userName + ' | ' + password);
+            const log = (0, core_utils_1.loggerCreator)(true, "USER LOGGING");
+            log("user loging");
+            log(userName + " | " + password);
             const logInResponse = yield this.HTTPServerComunicateService.getUserByUserNameAndPassword(userName, password);
             if (logInResponse.payload === null) {
                 return null;
@@ -177,11 +175,11 @@ class ApplicationSingletoneFacade {
     setUserLocally(user) {
         this.user = user;
         // ---------
-        user.on('requirement-updated', [
-            () => this.emitMessage('updated'),
+        user.on("requirement-updated", [
+            () => this.emitMessage("updated"),
             () => {
                 const userStats = this.getUserStats();
-                console.log('>>> get user stats response ::: ', userStats);
+                console.log(">>> get user stats response ::: ", userStats);
                 if (userStats === null) {
                     return;
                 }
@@ -190,17 +188,17 @@ class ApplicationSingletoneFacade {
                     return;
                 const transactionsStatsArr = user.removeTransactionsToSyncAsStats();
                 userStats.requirements = transactionsStatsArr;
-                console.log('>>> set user locally ::: userStats:', userStats);
-                this.HTTPServerComunicateService.pushUserDataStats(userStats, '')
+                console.log(">>> set user locally ::: userStats:", userStats);
+                this.HTTPServerComunicateService.pushUserDataStats(userStats, "")
                     .then((response) => {
                     if (response.payload === null)
                         return;
                     const newUser = this.personFactory.create(response.payload.name, response.payload.wallet, response.payload.createdTimeStamp, response.payload.updatedTimeStamp);
                     // const newRequirmentsPool:ITransactionRequirementCommand[] = []
-                    console.log('>>> response payload requirements >>> ', response.payload.requirements);
+                    console.log(">>> response payload requirements >>> ", response.payload.requirements);
                     response.payload.requirements.forEach((elem) => {
                         const transaction = this.requirementFactory.create(Object.assign({}, elem));
-                        console.log('>>> new transaction >>> data ::: ', transaction);
+                        console.log(">>> new transaction >>> data ::: ", transaction);
                         if (transaction !== null) {
                             // newRequirmentsPool.push(transaction);
                             newUser.addRequirementCommand(transaction);
@@ -225,12 +223,11 @@ class ApplicationSingletoneFacade {
     // localStorageService: ILocalStorageManagementService,
     serverConnector, eventService, authToken) {
         if (ApplicationSingletoneFacade.instance === null) {
-            ApplicationSingletoneFacade.instance =
-                new ApplicationSingletoneFacade(
-                // localStorageService,
-                // serverConnector,
-                // eventService,
-                authToken);
+            ApplicationSingletoneFacade.instance = new ApplicationSingletoneFacade(
+            // localStorageService,
+            // serverConnector,
+            // eventService,
+            authToken);
         }
         return ApplicationSingletoneFacade.instance;
     }
@@ -238,7 +235,7 @@ class ApplicationSingletoneFacade {
     updateRequirements() { }
     unsetUser() {
         // this.browserLocalStorageManagementService.unsetAuthData()
-        // #warning 
+        // #warning
         this.user = null;
         this.userUnsetCallBackPull.forEach((callback) => {
             callback();
@@ -268,7 +265,6 @@ class ApplicationSingletoneFacade {
         const authData = authToken;
         // this.browserLocalStorageManagementService.getAuthData()
         // #warning
-        ;
         ((serverCommunicator, 
         // localstorageServ: ILocalStorageManagementService,
         personFactory, reqFactory) => __awaiter(this, void 0, void 0, function* () {
@@ -279,10 +275,10 @@ class ApplicationSingletoneFacade {
                 if (responsedPayload === null) {
                     return;
                 }
-                // localstorageServ.setAuthData(responsedPayload.authToken) 
+                // localstorageServ.setAuthData(responsedPayload.authToken)
                 // #warning
                 const user = personFactory.create(responsedPayload.userStats.name, responsedPayload.userStats.wallet, responsedPayload.userStats.createdTimeStamp, responsedPayload.userStats.updatedTimeStamp);
-                console.log('>>> server-connector :: created user', user);
+                console.log(">>> server-connector :: created user", user);
                 responsedPayload.userStats.requirements.forEach((elem) => {
                     const requirementInitData = elem;
                     const createdRequirement = reqFactory.create(requirementInitData);
@@ -292,7 +288,7 @@ class ApplicationSingletoneFacade {
                 });
                 this.setUserLocally(user);
                 const log__user = this.getUserStats();
-                console.log('>>> app constructor ::  user name: ' + (log__user === null || log__user === void 0 ? void 0 : log__user.name));
+                console.log(">>> app constructor ::  user name: " + (log__user === null || log__user === void 0 ? void 0 : log__user.name));
             }
         }))(this.HTTPServerComunicateService, 
         // this.browserLocalStorageManagementService,

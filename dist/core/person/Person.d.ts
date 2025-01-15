@@ -1,8 +1,8 @@
-import { IWallet } from '../Wallet';
-import { ITransactionRequirementCommand } from '../requirement-command/RequirementCommand';
-import { IRrequirementsStatsType } from '../requirement-command/interfaces';
-import { IUserStats } from '../types/common';
-import { IPersonStatusSystem } from './PersonStatus';
+import { IWallet } from "../Wallet";
+import { ITransactionRequirementCommand } from "../requirement-command/RequirementCommand";
+import { IRrequirementsStatsType } from "../requirement-command/interfaces";
+import { IUserStats } from "../types/common";
+import { IPersonStatusSystem } from "./PersonStatus";
 export type TStatus = {
     id: number;
     title: string;
@@ -29,20 +29,20 @@ export interface IPerson {
     setStatus(status: IPersonStatusSystem): boolean;
     onUpdate(cb: (user: IPerson) => any): any;
     on(message: string, callBacks: (() => void)[]): void;
-    removeTransactionsToSyncAsStats(): Omit<IRrequirementsStatsType, 'userId' | 'deleted' | 'userId'>[];
+    removeTransactionsToSyncAsStats(): Omit<IRrequirementsStatsType, "userId" | "deleted" | "userId">[];
     getCreatedTimeStamp(): number;
     getUpdatedTimeStamp(): number;
-    getStats(): Omit<IUserStats, 'requirements' | 'id' | 'password'> & {
-        requirements: Omit<IRrequirementsStatsType, 'userId' | 'deleted'>[];
+    getStats(): Omit<IUserStats, "requirements" | "id" | "password"> & {
+        requirements: Omit<IRrequirementsStatsType, "userId" | "deleted">[];
     };
 }
 export declare abstract class Person implements IPerson {
     getCreatedTimeStamp(): number;
     getUpdatedTimeStamp(): number;
-    getStats(): Omit<IUserStats, 'requirements' | 'id' | 'password'> & {
-        requirements: Omit<IRrequirementsStatsType, 'userId' | 'deleted'>[];
+    getStats(): Omit<IUserStats, "requirements" | "id" | "password"> & {
+        requirements: Omit<IRrequirementsStatsType, "userId" | "deleted">[];
     };
-    removeTransactionsToSyncAsStats(): Omit<IRrequirementsStatsType, 'userId' | 'deleted' | 'userId'>[];
+    removeTransactionsToSyncAsStats(): Omit<IRrequirementsStatsType, "userId" | "deleted" | "userId">[];
     on(message: string, callBacks: (() => void)[]): void;
     onUpdate(cb: (user: IPerson) => any): any;
     getRequirementCommandById(id: string): ITransactionRequirementCommand[];
@@ -58,7 +58,7 @@ export declare abstract class Person implements IPerson {
     getAllReauirementCommands(): ITransactionRequirementCommand[];
     getExecutedRequirementCommands(): ITransactionRequirementCommand[];
     private emitMessage;
-    constructor({ wallet, name, updatedTimeStamp, createdTimeStamp, }: Omit<IUserStats, 'wallet' | 'id' | 'password' | 'requirements'> & {
+    constructor({ wallet, name, updatedTimeStamp, createdTimeStamp, }: Omit<IUserStats, "wallet" | "id" | "password" | "requirements"> & {
         wallet: IWallet;
     });
     protected name: string;

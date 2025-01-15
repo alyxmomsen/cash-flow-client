@@ -10,9 +10,9 @@ exports.Registry = Registry;
 function getServerBaseUrl(mode = true) {
     // const outside = mode ? process.env.ServerBaseURLOutSide : null;
     // const localUrl = process.env.ServerBaseURLLocal;
-    return /* outside || localUrl ||  */ 'http://127.0.0.1:3030';
+    return /* outside || localUrl ||  */ "http://127.0.0.1:3030";
 }
-function loggerCreator(isOn, titleValue = 'unnamed log') {
+function loggerCreator(isOn, titleValue = "unnamed log") {
     const title = titleValue;
     return (data) => {
         if (isOn) {

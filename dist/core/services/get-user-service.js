@@ -14,12 +14,12 @@ const core_utils_1 = require("../../core-utils/core-utils");
 class GetUserService {
     byId(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + '/get-user-protected', {
+            const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + "/get-user-protected", {
                 headers: {
-                    'content-type': 'application/json',
-                    'x-auth': id,
+                    "content-type": "application/json",
+                    "x-auth": id,
                 },
-                method: 'post',
+                method: "post",
             });
             const data = (yield response.json());
             // const { payload, status } = data

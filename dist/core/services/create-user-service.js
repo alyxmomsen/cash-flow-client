@@ -14,25 +14,25 @@ const core_utils_1 = require("../../core-utils/core-utils");
 class CreateUserService {
     execute(userName, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (typeof userName === 'string' && typeof password === 'string') {
+            if (typeof userName === "string" && typeof password === "string") {
                 if (userName.length < 3 && password.length < 6) {
                     return Promise.resolve({
                         status: {
                             code: 1,
-                            details: 'incorrect password or user name',
+                            details: "incorrect password or user name",
                         },
                         payload: null,
                     });
                 }
                 try {
-                    const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + '/registration', {
-                        method: 'post',
+                    const response = yield fetch((0, core_utils_1.getServerBaseUrl)() + "/registration", {
+                        method: "post",
                         body: JSON.stringify({
                             userName,
                             password,
                         }),
                         headers: {
-                            'Content-Type': 'application/json',
+                            "Content-Type": "application/json",
                         },
                     });
                     const data = (yield response.json());
@@ -54,7 +54,7 @@ class CreateUserService {
                             : null,
                         status: {
                             code: 0,
-                            details: 'user created successfully',
+                            details: "user created successfully",
                         },
                     });
                 }
@@ -63,7 +63,7 @@ class CreateUserService {
                         payload: null,
                         status: {
                             code: 3,
-                            details: 'fetch irror',
+                            details: "fetch irror",
                         },
                     });
                 }
@@ -72,7 +72,7 @@ class CreateUserService {
                 return Promise.resolve({
                     status: {
                         code: 2,
-                        details: 'incorrect data type',
+                        details: "incorrect data type",
                     },
                     payload: null,
                 });

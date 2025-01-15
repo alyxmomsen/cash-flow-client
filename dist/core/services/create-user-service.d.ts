@@ -1,4 +1,4 @@
-import { ICreateUserResponseData } from '../App-facade';
+import { ICreateUserResponseData } from "../App-facade";
 export interface ICreateUserService {
     execute(userName: string, password: string): Promise<ICreateUserResponseData>;
 }
