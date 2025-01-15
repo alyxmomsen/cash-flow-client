@@ -1,22 +1,22 @@
 export interface ILocalStorageManagementService {
-    setAuthData(value: string): any
-    getAuthData(): string | null
-    unsetAuthData(): any
+  setAuthData(value: string): any;
+  getAuthData(): string | null;
+  unsetAuthData(): any;
 }
 
 export class LocalStorageManagementService
-    implements ILocalStorageManagementService
+  implements ILocalStorageManagementService
 {
-    setAuthData(value: string) {
-        window.localStorage.setItem('userId', value)
-    }
-    getAuthData(): string | null {
-        const value = window.localStorage.getItem('userId')
+  setAuthData(value: string) {
+    window.localStorage.setItem("userId", value);
+  }
+  getAuthData(): string | null {
+    const value = window.localStorage.getItem("userId");
 
-        return value
-    }
+    return value;
+  }
 
-    unsetAuthData(): any {
-        window.localStorage.removeItem('userId')
-    }
+  unsetAuthData(): any {
+    window.localStorage.removeItem("userId");
+  }
 }

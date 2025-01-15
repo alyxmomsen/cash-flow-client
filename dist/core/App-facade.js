@@ -11,10 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApplicationSingletoneFacade = void 0;
 const core_utils_1 = require("../core-utils/core-utils");
+const App_event_1 = require("./events/App-event");
 const PersonFactory_1 = require("./person/factories/PersonFactory");
 const RequirementFactory_1 = require("./requirement-command/factories/RequirementFactory");
 const auth_service_1 = require("./services/auth-service");
 const requirement_management_service_1 = require("./services/requirement-management-service");
+const server_connector_service_facade_1 = require("./services/server-connector-service-facade");
 class ApplicationSingletoneFacade {
     executeTransactsionById(id) {
         const user = this.user;
@@ -226,7 +228,9 @@ class ApplicationSingletoneFacade {
             ApplicationSingletoneFacade.instance =
                 new ApplicationSingletoneFacade(
                 // localStorageService,
-                serverConnector, eventService, authToken);
+                // serverConnector,
+                // eventService,
+                authToken);
         }
         return ApplicationSingletoneFacade.instance;
     }
@@ -242,22 +246,24 @@ class ApplicationSingletoneFacade {
     }
     /* private  */ constructor(
     // localStorageService: ILocalStorageManagementService,
-    serverConnector, eventService, authToken) {
+    // serverConnector: IHTTPServerCommunicateService,
+    // eventService: IEventService,
+    authToken) {
         // subscribers
         this.subscribers = [];
         // observer pulls
         this.userIsSetCallBackPull = [];
         this.userUnsetCallBackPull = [];
         // --
+        this.HTTPServerComunicateService = new server_connector_service_facade_1.HTTPServerComunicateService();
+        this.authUserService = new auth_service_1.AuthUserService();
+        this.eventServise = new App_event_1.EventService();
         this.personFactory = new PersonFactory_1.PersonFactory();
         this.requirementFactory = new RequirementFactory_1.RequirementFactory();
         this.requriementManagementService = new requirement_management_service_1.RequrementManagementService(new RequirementFactory_1.RequirementFactory());
-        this.authUserService = new auth_service_1.AuthUserService();
-        this.eventServise = eventService;
         this.callbackPull = [];
         this.updatingStatus = false;
         // this.browserLocalStorageManagementService = localStorageService
-        this.HTTPServerComunicateService = serverConnector;
         this.user = null;
         const authData = authToken;
         // this.browserLocalStorageManagementService.getAuthData()

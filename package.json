@@ -1,11 +1,9 @@
 {
   "name": "cash-flow",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "cash-flow app",
   "main": "dist/index.js",
-  "scripts": {
-    
-  },
+  "scripts": {},
   "author": "max-von-schtierlitz",
   "license": "ISC",
   "dependencies": {
@@ -14,9 +12,10 @@
   },
   "devDependencies": {
     "dotenv": "^16.4.7"
-  }, 
-  "types": "dist/index.d.ts" ,
+  },
+  "types": "dist/index.d.ts",
   "files": [
-    "dist" , "README.md"
+    "dist",
+    "README.md"
   ]
 }

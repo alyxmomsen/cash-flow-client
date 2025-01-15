@@ -1,14 +1,14 @@
-import { IdRegistry } from './Registry'
+import { IdRegistry } from "./Registry";
 
 export class UniqIdManager {
-    protected registry: IdRegistry
+  protected registry: IdRegistry;
 
-    gen(): number {
-        // this.registry.isExist()
-        return 0
-    }
+  gen(): number {
+    // this.registry.isExist()
+    return 0;
+  }
 
-    constructor() {
-        this.registry = new IdRegistry()
-    }
+  constructor() {
+    this.registry = new IdRegistry();
+  }
 }

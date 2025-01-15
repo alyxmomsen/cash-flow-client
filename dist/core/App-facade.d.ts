@@ -87,5 +87,5 @@ export declare class ApplicationSingletoneFacade implements IApplicationSingleto
     private userUnsetCallBackPull;
     private updateRequirements;
     private unsetUser;
-    constructor(serverConnector: IHTTPServerCommunicateService, eventService: IEventService, authToken: string);
+    constructor(authToken: string);
 }
