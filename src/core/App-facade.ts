@@ -13,6 +13,7 @@ import {
 import { ITransactionRequirementCommand } from "./requirement-command/RequirementCommand";
 import { AuthUserService, IAuthService } from "./services/auth-service";
 import { ICreateUserService } from "./services/create-user-service";
+// import { ILocalStorageManagementService } from "./services/local-storage-service";
 import {
   IRequirementManagementService,
   RequrementManagementService,
@@ -56,7 +57,11 @@ export interface IApplicationSingletoneFacade {
         requirements: Omit<IRrequirementsStatsType, "userId" | "deleted">[];
       })
     | null;
-  userLogIn(userName: string, password: string): Promise<IPerson | null>;
+  userLogIn(
+    userName: string,
+    password: string,
+    // localStorageService: ILocalStorageManagementService,
+  ): Promise<string | null>;
   userLogOut(): any;
   onAppUpdate(cb: () => void): void;
   onUserSet(
@@ -215,7 +220,11 @@ export class ApplicationSingletoneFacade
     return { id: response.payload.requirementId };
   }
 
-  async userLogIn(userName: string, password: string): Promise<IPerson | null> {
+  async userLogIn(
+    userName: string,
+    password: string,
+    // localStorageService: ILocalStorageManagementService,
+  ): Promise<string | null> {
     const log = loggerCreator(true, "USER LOGGING");
 
     log("user loging");
@@ -257,10 +266,12 @@ export class ApplicationSingletoneFacade
 
     const token = logInResponse.payload.authToken;
 
+    // localStorageService.
+
     // this.browserLocalStorageManagementService.setAuthData(token)
     // #warning implement addEventListener
 
-    return newPerson;
+    return token;
   }
 
   userLogOut() {
