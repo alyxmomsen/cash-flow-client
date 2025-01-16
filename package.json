@@ -1,9 +1,11 @@
 {
   "name": "cash-flow",
-  "version": "1.0.8",
+  "version": "1.0.16",
   "description": "cash-flow app",
   "main": "dist/index.js",
-  "scripts": {},
+  "scripts": {
+    "pub": "prettier --write . & tsc & npm publish"
+  },
   "author": "max-von-schtierlitz",
   "license": "ISC",
   "dependencies": {

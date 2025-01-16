@@ -13,7 +13,6 @@ import {
 import { ITransactionRequirementCommand } from "./requirement-command/RequirementCommand";
 import { AuthUserService, IAuthService } from "./services/auth-service";
 import { ICreateUserService } from "./services/create-user-service";
-import { ILocalStorageManagementService } from "./services/local-storage-service";
 import {
   IRequirementManagementService,
   RequrementManagementService,
@@ -25,9 +24,9 @@ import {
 
 import { ITask } from "./Task";
 import { IUserStats } from "./types/common";
-
+//
 export interface IApplicationSingletoneFacade {
-  executeTransactsionById(id: string): void;
+  executeTransactsionById(id: string, fallBack: () => void): void;
   deleteRequirement(
     reqId: string,
     authToken: string,
@@ -41,7 +40,7 @@ export interface IApplicationSingletoneFacade {
       | "updatedTimeStamp"
       | "deleted"
       | "executed"
-    >,
+    > & { authToken: string },
   ): Promise<any>;
   addRequirementSchedule(
     task: ITask<ITransactionRequirementCommand, IPerson>,
@@ -102,14 +101,13 @@ export interface ICheckAuthTokenResponseData {
 export class ApplicationSingletoneFacade
   implements IApplicationSingletoneFacade
 {
-  executeTransactsionById(id: string): void {
+  executeTransactsionById(id: string, fallBack: () => void): void {
     const user = this.user;
 
     if (user === null) {
-      // this.browserLocalStorageManagementService.unsetAuthData()
+      fallBack();
 
       console.log(">>> inline log >>> user is null");
-      // #warning // #todo onUserIsNull is not provided
 
       return;
     }

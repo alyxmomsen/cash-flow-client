@@ -7,7 +7,6 @@ export interface IRegistry {}
 
 export class Registry implements IRegistry {}
 
-
 export function getServerBaseUrl(mode: boolean = true) {
   // const outside = mode ? process.env.ServerBaseURLOutSide : null;
   // const localUrl = process.env.ServerBaseURLLocal;
@@ -27,4 +26,3 @@ export function loggerCreator(
     }
   };
 }
-
