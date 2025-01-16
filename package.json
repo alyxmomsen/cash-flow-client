@@ -1,6 +1,6 @@
 {
   "name": "cash-flow",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "cash-flow app",
   "main": "dist/index.js",
   "scripts": {},
