@@ -4,7 +4,7 @@ import { IRequirementFactory } from "../requirement-command/factories/Requiremen
 import { IRrequirementsStatsType } from "../requirement-command/interfaces";
 import { IUserStats } from "../types/common";
 import { IAuthService } from "./auth-service";
-import { getServerBaseUrl } from "../../core-utils/core-utils";
+import { getServerBaseUrl } from "../../core-utils";
 // import { env } from 'process'
 
 export interface IRequirementManagementService {

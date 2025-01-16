@@ -1,4 +1,4 @@
-import { getServerBaseUrl } from "../../core-utils/core-utils";
+import { getServerBaseUrl } from "../../core-utils";
 import { IUserStats, TFetchResponse } from "../types/common";
 
 export interface IGetUserService {

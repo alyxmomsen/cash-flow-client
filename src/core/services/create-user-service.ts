@@ -1,4 +1,4 @@
-import { getServerBaseUrl } from "../../core-utils/core-utils";
+import { getServerBaseUrl } from "../../core-utils";
 import { ICreateUserResponseData } from "../App-facade";
 import { TFetchAuthResponseData, TFetchResponse } from "../types/common";
 

@@ -1,4 +1,4 @@
-import { loggerCreator } from "../core-utils/core-utils";
+import { loggerCreator } from "../core-utils";
 import { EventService, IEventService } from "./events/App-event";
 import { IPersonFacory, PersonFactory } from "./person/factories/PersonFactory";
 import { IPerson } from "./person/Person";
