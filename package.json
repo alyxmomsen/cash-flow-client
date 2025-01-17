@@ -4,7 +4,8 @@
   "description": "cash-flow app",
   "main": "dist/index.js",
   "scripts": {
-    "pub": "prettier --write . & tsc & npm publish"
+    "pub": "prettier --write . & tsc & npm publish",
+    "refact-min": "npx prettier --write . & npx tsc & git add . & git commit -m \"refactor to minorly\" & "
   },
   "author": "max-von-schtierlitz",
   "license": "ISC",
