@@ -17,6 +17,7 @@ export interface ITransactionRequirementCommand {
   subscribeOnUpdate(cb: (rquirementiD: string) => void): void;
   getCreatedTimeStamp(): number;
   getUpdatedTimeStamp(): number;
+  getStats(): Omit<IRrequirementsStatsType, "userId">;
 }
 
 abstract class TransactionRequirementCommand
@@ -25,6 +26,21 @@ abstract class TransactionRequirementCommand
   abstract executeWithValue(value: number): number;
 
   abstract execute(person: IPerson): boolean;
+
+  getStats(): Omit<IRrequirementsStatsType, "userId"> {
+    return {
+      createdTimeStamp: this.getCreatedTimeStamp(),
+      dateToExecute: this.getDateToExecute(),
+      deleted: this.getDeletedTheState(),
+      description: this.getDescription(),
+      executed: this.isExecuted(),
+      id: this.getId(),
+      title: this.getTitle(),
+      transactionTypeCode: this.getTransactionTypeCode(),
+      updatedTimeStamp: this.getUpdatedTimeStamp(),
+      value: this.getValue(),
+    };
+  }
 
   getCreatedTimeStamp(): number {
     return this.createdTimeStamp;

@@ -3,13 +3,16 @@ import {
   IRequirementStats,
   IRrequirementsStatsType,
 } from "../requirement-command/interfaces";
-import { IUserStats, TFetchResponse } from "../types/common";
+import {
+  IUserStats,
+  TFetchAuthResponseData,
+  TFetchResponse,
+} from "../types/common";
 import { AuthUserService, IAuthService } from "./auth-service";
-import { GetUserService, IGetUserService } from "./get-user-service";
 import { ILocalStorageManagementService } from "./local-storage-service";
 
 export interface IHTTPServerCommunicateService {
-  getUserById(id: string): Promise<TFetchResponse<Omit<IUserStats, "id">>>;
+  // getUserById(id: string): Promise<TFetchResponse<Omit<IUserStats, "id">>>;
   getUserByAuthToken(token: string): Promise<
     TFetchResponse<{
       userStats: Omit<IUserStats, "id"> & {
@@ -29,7 +32,7 @@ export interface IHTTPServerCommunicateService {
       authToken: string;
     }>
   >;
-  pushUserDataStats(
+  replicateUserDataStats(
     user: Omit<IUserStats, "id" | "requirements" | "password"> & {
       requirements: Omit<IRrequirementsStatsType, "userId" | "deleted">[];
     },
@@ -41,6 +44,12 @@ export interface IHTTPServerCommunicateService {
       }
     >
   >;
+  createUser(userName: string, password: string): Promise<boolean>;
+  getUser(
+    userName: string,
+    password: string,
+    authToken: { value: string } | null,
+  ): Promise<IUserStats | null>;
 }
 
 export interface IFetchHeaders {
@@ -51,7 +60,36 @@ export interface IFetchHeaders {
 export class HTTPServerComunicateService
   implements IHTTPServerCommunicateService
 {
-  async pushUserDataStats(
+  async getUser(
+    userName: string,
+    password: string,
+    authToken: { value: string } | null,
+  ): Promise<IUserStats | null> {
+    return null;
+  }
+
+  async createUser(userName: string, password: string): Promise<boolean> {
+    try {
+      const response = await fetch(getServerBaseUrl() + "/registration", {
+        // what exactly is the server expecting
+        body: JSON.stringify({ userName, password }),
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      const responseData =
+        (await response.json()) as TFetchResponse<TFetchAuthResponseData>;
+
+      if (responseData.payload === null) return false;
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  async replicateUserDataStats(
     user: Omit<IUserStats, "id" | "requirements" | "password"> & {
       requirements: Omit<IRrequirementsStatsType, "userId" | "deleted">[];
     },
@@ -168,17 +206,17 @@ export class HTTPServerComunicateService
     return responseData;
   }
 
-  async getUserById(
-    id: string,
-  ): Promise<TFetchResponse<Omit<IUserStats, "id">>> {
-    const response = await this.getUserService.byId(id);
-    return response;
-  }
-  private getUserService: IGetUserService;
+  // async getUserById(
+  //   id: string,
+  // ): Promise<TFetchResponse<Omit<IUserStats, "id">>> {
+  //   const response = await this.getUserService.byId(id);
+  //   return response;
+  // }
+
   private authUserService: IAuthService;
 
   constructor() {
-    this.getUserService = new GetUserService();
+    // this.getUserService = new GetUserService();
     this.authUserService = new AuthUserService();
   }
 }

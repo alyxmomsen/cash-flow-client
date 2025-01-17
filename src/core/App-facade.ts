@@ -12,7 +12,7 @@ import {
 } from "./requirement-command/interfaces";
 import { ITransactionRequirementCommand } from "./requirement-command/RequirementCommand";
 import { AuthUserService, IAuthService } from "./services/auth-service";
-import { ICreateUserService } from "./services/create-user-service";
+// import { ICreateUserService } from "./services/create-user-service";
 // import { ILocalStorageManagementService } from "./services/local-storage-service";
 import {
   IRequirementManagementService,
@@ -27,7 +27,11 @@ import { ITask } from "./Task";
 import { IUserStats } from "./types/common";
 //
 export interface IApplicationSingletoneFacade {
-  executeTransactsionById(id: string, fallBack: () => void): void;
+  executeTransactsionById(
+    id: string,
+    fallBack: () => void,
+    authToken: { value: string } | null,
+  ): void;
   deleteRequirement(
     reqId: string,
     authToken: string,
@@ -46,11 +50,7 @@ export interface IApplicationSingletoneFacade {
   addRequirementSchedule(
     task: ITask<ITransactionRequirementCommand, IPerson>,
   ): void;
-  createUserRemote(
-    userName: string,
-    password: string,
-    createUserService: ICreateUserService,
-  ): Promise<ICreateUserResponseData>;
+  createUserRemote(userName: string, password: string): Promise<boolean>;
   getLocalUserStats(): IPerson | null;
   getUserStats():
     | (Omit<IUserStats, "id" | "requirements" | "password"> & {
@@ -106,14 +106,21 @@ export interface ICheckAuthTokenResponseData {
 export class ApplicationSingletoneFacade
   implements IApplicationSingletoneFacade
 {
-  executeTransactsionById(id: string, fallBack: () => void): void {
+  executeTransactsionById(
+    id: string,
+    fallBack: () => void,
+    authToken: { value: string } | null,
+  ): void {
     const user = this.user;
 
     if (user === null) {
       fallBack();
-
       console.log(">>> inline log >>> user is null");
+      return;
+    }
 
+    if (authToken === null) {
+      fallBack();
       return;
     }
 
@@ -129,7 +136,25 @@ export class ApplicationSingletoneFacade
 
     const requirement = requirements[0];
 
-    requirement.execute(user);
+    const result = requirement.execute(user);
+
+    if (result === false) {
+      fallBack();
+      return;
+    }
+    const requirementStats = requirement.getStats();
+    const updatedUser = this.HTTPServerComunicateService.replicateUserDataStats(
+      {
+        createdTimeStamp: user.getCreatedTimeStamp(),
+        name: user.getName(),
+        requirements: [requirementStats],
+        updatedTimeStamp: user.getUpdatedTimeStamp(),
+        wallet: user.getWalletBalance(),
+      },
+      authToken.value,
+    );
+
+    // this.personFactory.create('' ,);
 
     console.log(">>> executeTransaction :: ", requirements);
     console.log(">>> executeTransaction :: user has been mutated");
@@ -174,6 +199,10 @@ export class ApplicationSingletoneFacade
           });
 
           if (newRequirement) {
+            newRequirement.subscribeOnUpdate(() => {
+              // this.HTTPServerComunicateService.
+            });
+
             newUser.addRequirementCommand(newRequirement);
           }
         });
@@ -344,12 +373,13 @@ export class ApplicationSingletoneFacade
     return stats;
   }
 
-  async createUserRemote(
-    userName: string,
-    password: string,
-    createUserService: ICreateUserService,
-  ): Promise<ICreateUserResponseData> {
-    return createUserService.execute(userName, password);
+  async createUserRemote(userName: string, password: string): Promise<boolean> {
+    const response = await this.HTTPServerComunicateService.createUser(
+      userName,
+      password,
+    );
+
+    return response;
   }
 
   subscriberOnMessage({
@@ -401,7 +431,7 @@ export class ApplicationSingletoneFacade
 
         console.log(">>> set user locally ::: userStats:", userStats);
 
-        this.HTTPServerComunicateService.pushUserDataStats(
+        this.HTTPServerComunicateService.replicateUserDataStats(
           userStats,
           "", // #warning auth token is not provided
         )
@@ -514,12 +544,7 @@ export class ApplicationSingletoneFacade
     });
   }
 
-  /* private  */ constructor(
-    // localStorageService: ILocalStorageManagementService,
-    // serverConnector: IHTTPServerCommunicateService,
-    // eventService: IEventService,
-    authToken: string,
-  ) {
+  constructor(authToken: string) {
     // subscribers
 
     this.subscribers = [];
@@ -546,29 +571,29 @@ export class ApplicationSingletoneFacade
 
     this.user = null;
 
-    const authData = authToken;
+    const authData: { value: string } | null = authToken
+      ? { value: authToken }
+      : null;
     // this.browserLocalStorageManagementService.getAuthData()
     // #warning
-
-    (async (
+    const init = async (
       serverCommunicator: IHTTPServerCommunicateService,
-      // localstorageServ: ILocalStorageManagementService,
       personFactory: IPersonFacory,
       reqFactory: IRequirementFactory,
-    ) => {
+      authData: { value: string } | null,
+    ): Promise<void> => {
       if (authData) {
         this.updatingStatus = true;
 
-        const response = await serverCommunicator.getUserByAuthToken(authData);
+        const response = await serverCommunicator.getUserByAuthToken(
+          authData.value,
+        );
 
         const responsedPayload = response.payload;
 
         if (responsedPayload === null) {
           return;
         }
-
-        // localstorageServ.setAuthData(responsedPayload.authToken)
-        // #warning
 
         const user = personFactory.create(
           responsedPayload.userStats.name,
@@ -598,13 +623,13 @@ export class ApplicationSingletoneFacade
 
         console.log(">>> app constructor ::  user name: " + log__user?.name);
       }
-    })(
+    };
+
+    init(
       this.HTTPServerComunicateService,
-      // this.browserLocalStorageManagementService,
       this.personFactory,
       this.requirementFactory,
+      authData,
     );
-
-    // this.createUser()
   }
 }
